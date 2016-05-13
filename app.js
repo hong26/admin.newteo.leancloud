@@ -47,7 +47,7 @@ app.use(function(req, res, next) {
 });
 
 app.get('/', function(req, res) {
-  res.sendFile('./views/index.html')
+  res.sendFile(__dirname + '/views/index.html')
 });
 
 // 可以将一类的路由单独保存在一个文件中
