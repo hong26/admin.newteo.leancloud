@@ -11,8 +11,8 @@ This is an example of using Leancloud building Server/Client
 首先确认本机已经安装 [Node.js](http://nodejs.org/) 运行环境和 [LeanCloud 命令行工具](https://leancloud.cn/docs/cloud_code_commandline.html)，然后执行下列指令：
 
 ```
-$ git clone git@github.com:shinchou/LC-EXAMPLE.git
-$ cd LC-EXAMPLE
+$ git clone git@github.com:shinchou/admin.newteo.leancloud.git
+$ cd admin.newteo.leancloud
 ```
 
 安装依赖：
