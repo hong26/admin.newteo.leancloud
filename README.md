@@ -1,4 +1,4 @@
-# LC-EXAMPLE
+# admin-newteo.leancloud
 
 一个简单的使用 Express 4 的 Node.js 应用。
 
