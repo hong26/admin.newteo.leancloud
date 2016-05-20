@@ -1,31 +1,56 @@
-var autoprefixer = require('autoprefixer');
+const path = require('path')
+const autoprefixer = require('autoprefixer')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+
+const sassLoaders = [
+  'css-loader',
+  'postcss-loader',
+  'sass-loader?indentedSyntax=sass'
+]
+
 module.exports = {
-  entry: {
-     main: [
-      __dirname + '/app/index',
-     ],
-     // admin: [
-     //  __dirname + '/jsx/app.admin.jsx',
-     // ]
-  },
+  entry: './main.js',
   output: {
-    path: __dirname + '/public/',
-    filename: '[name].js',
+    filename: 'application.js',
+    path: path.join(__dirname, './public')
   },
   module: {
-      loaders: [
-        {test: /\.js$/, exclude: /node_modules/,loader: "babel",query:{presets:['es2015']}},
-        {test: /\.js$/, exclude: /node_modules/,loader: "babel",query:{presets:['react','es2015']}}, // 编译jsx文件
-        {test: /\.css$/, loader: 'style!css!postcss'}, //编译css文件 和autoprefixer自动补全前缀
-        {test: /\.(jpg|png|gif)$/, loader: "url?limit=8192"},  // <=8k的图片使用base64内联, 其他的继续用图片
-        {test: /\.(png|jpg|gif)$/, loader: 'file-loader'}, // 图片独立(兼容<IE8的browser)
-        {test: /\.sass$/, loader: "style!css!postcss!sass?indentedSyntax"} // 编译sass文件
-      ],
-      postcss: [ 
-        autoprefixer({ browsers: ['last 2 versions'] }) 
-      ]
+    loaders: [
+      {
+        test: /\.jsx?$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        query: {
+          presets: [
+            'react',
+            'es2015'
+          ],
+          plugins:[['antd', {style:'css'}]]
+        }
+      },
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
+      },
+      {
+        test: /\.sass$/,
+        loader: ExtractTextPlugin.extract('style-loader', sassLoaders.join('!'))
+      },
+      {
+        test: /\.(jpeg|jpg|png|svg|gif)$/,
+        loader: 'url-loader?limit=8192'
+      }
+    ]
   },
-    resolve: {
-    extensions: ['', '.js', '.jsx', '.css', '.json', '.sass', '.cjsx' ]
+  plugins: [
+    new ExtractTextPlugin('application.css')
+  ],
+  postcss: [
+    autoprefixer({
+      browsers: ['last 2 versions']
+    })
+  ],
+  resolve: {
+    extensions: ['', '.js', '.jsx', '.css', '.sass', '.json']
   }
 }
